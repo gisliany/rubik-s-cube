@@ -1,16 +1,16 @@
-// To compile: gcc -o main main.c -lGL -lGLU -lglut
-
-#include <stdio.h>
 #include <GL/gl.h>
+#include <GL/glu.h>
+#include <stdio.h>
+#include <math.h>
 #include <GL/glut.h>
+#include <stdlib.h>
 
-void display(void)
+GLuint theCube;
+
+/* Draw a cube */
+static void cube(int numc, int numt)
 {
-    /*  clear all pixels  */
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Limpe a tela e o Z-Buffer
-    glLoadIdentity();
-
-    //FRONT
+   //FRONT
     //quad 1
     glColor3f(0.0, 0.0, 0.0);
     glLineWidth(5.0);
@@ -96,7 +96,7 @@ void display(void)
         glVertex3f(-1.0, 1.0, -1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(0.0, 1.0, 1.0);
     glBegin(GL_POLYGON);
          glVertex3f(-1.0, 1.0, 0.0);
         glVertex3f(0.0, 1.0, 0.0);
@@ -114,7 +114,7 @@ void display(void)
         glVertex3f(0.0, 1.0, -1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(0.0, 1.0, 1.0);
     glBegin(GL_POLYGON);
         glVertex3f(0.0, 1.0, 0.0);
         glVertex3f(1.0, 1.0, 0.0);
@@ -132,7 +132,7 @@ void display(void)
         glVertex3f(-1.0, 1.0, 0.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(0.0, 1.0, 1.0);
     glBegin(GL_POLYGON);
         glVertex3f(-1.0, 1.0, 1.0);
         glVertex3f(0.0, 1.0, 1.0);
@@ -150,7 +150,7 @@ void display(void)
         glVertex3f(0.0, 1.0, 0.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(0.0, 1.0, 1.0);
     glBegin(GL_POLYGON);
        glVertex3f(0.0, 1.0, 1.0);
         glVertex3f(1.0, 1.0, 1.0);
@@ -169,7 +169,7 @@ void display(void)
         glVertex3f(-1.0, 1.0, -1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 0.0, 1.0);
     glBegin(GL_POLYGON);
         glVertex3f(-1.0, 0.0, -1.0);
         glVertex3f(-1.0, 0.0, 0.0);
@@ -187,7 +187,7 @@ void display(void)
         glVertex3f(-1.0, 1.0, 0.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 0.0, 1.0);
     glBegin(GL_POLYGON);
         glVertex3f(-1.0, 0.0, 0.0);
         glVertex3f(-1.0, 0.0, 1.0);
@@ -205,7 +205,7 @@ void display(void)
         glVertex3f(-1.0, 0.0, -1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 0.0, 1.0);
     glBegin(GL_POLYGON);
          glVertex3f(-1.0, -1.0, -1.0);
         glVertex3f(-1.0, -1.0, 0.0);
@@ -223,7 +223,7 @@ void display(void)
         glVertex3f(-1.0, 0.0, 0.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 0.0, 1.0);
     glBegin(GL_POLYGON);
         glVertex3f(-1.0, -1.0, 0.0);
         glVertex3f(-1.0, -1.0, 1.0);
@@ -237,17 +237,17 @@ void display(void)
     glLineWidth(5.0);
     glBegin(GL_LINE_LOOP);
         glVertex3f(-1.0, 1.0, -1.0);
-        glVertex3f(0.0, 1.0, -1.0);
         glVertex3f(-1.0, 0.0, -1.0);
         glVertex3f(0.0, 0.0, -1.0);
+        glVertex3f(0.0, 1.0, -1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
-       glVertex3f(-1.0, 1.0, -1.0);
-        glVertex3f(0.0, 1.0, -1.0);
+        glVertex3f(-1.0, 1.0, -1.0);
         glVertex3f(-1.0, 0.0, -1.0);
         glVertex3f(0.0, 0.0, -1.0);
+        glVertex3f(0.0, 1.0, -1.0);
     glEnd();
 
     //quad 2
@@ -256,16 +256,16 @@ void display(void)
     glBegin(GL_LINE_LOOP);
         glVertex3f(0.0, 1.0, -1.0);
         glVertex3f(1.0, 1.0, -1.0);
-        glVertex3f(0.0, 0.0, -1.0);
         glVertex3f(1.0, 0.0, -1.0);
+        glVertex3f(0.0, 0.0, -1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
         glVertex3f(0.0, 1.0, -1.0);
         glVertex3f(1.0, 1.0, -1.0);
-        glVertex3f(0.0, 0.0, -1.0);
         glVertex3f(1.0, 0.0, -1.0);
+        glVertex3f(0.0, 0.0, -1.0);
     glEnd();
 
     //quad 3
@@ -274,16 +274,16 @@ void display(void)
     glBegin(GL_LINE_LOOP);
         glVertex3f(-1.0, 0.0, -1.0);
         glVertex3f(0.0, 0.0, -1.0);
-        glVertex3f(-1.0, -1.0, -1.0);
         glVertex3f(0.0, -1.0, -1.0);
+        glVertex3f(-1.0, -1.0, -1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
         glVertex3f(-1.0, 0.0, -1.0);
         glVertex3f(0.0, 0.0, -1.0);
-        glVertex3f(-1.0, -1.0, -1.0);
         glVertex3f(0.0, -1.0, -1.0);
+        glVertex3f(-1.0, -1.0, -1.0);
     glEnd();
 
     //quad 4
@@ -292,16 +292,16 @@ void display(void)
     glBegin(GL_LINE_LOOP);
         glVertex3f(0.0, 0.0, -1.0);
         glVertex3f(1.0, 0.0, -1.0);
-        glVertex3f(0.0, -1.0, -1.0);
         glVertex3f(1.0, -1.0, -1.0);
+        glVertex3f(0.0, -1.0, -1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
         glVertex3f(0.0, 0.0, -1.0);
         glVertex3f(1.0, 0.0, -1.0);
-        glVertex3f(0.0, -1.0, -1.0);
         glVertex3f(1.0, -1.0, -1.0);
+        glVertex3f(0.0, -1.0, -1.0);
     glEnd();
 
     //RIGHT
@@ -315,7 +315,7 @@ void display(void)
         glVertex3f(1.0, 0.0, 1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 0.0, 0.0);
     glBegin(GL_POLYGON);
         glVertex3f(1.0, 1.0, 1.0);
         glVertex3f(1.0, 1.0, 0.0);
@@ -329,16 +329,16 @@ void display(void)
     glBegin(GL_LINE_LOOP);
         glVertex3f(1.0, 1.0, 0.0);
         glVertex3f(1.0, 1.0, -1.0);
-        glVertex3f(1.0, 0.0, 0.0);
         glVertex3f(1.0, 0.0, -1.0);
+        glVertex3f(1.0, 0.0, 0.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 0.0, 0.0);
     glBegin(GL_POLYGON);
         glVertex3f(1.0, 1.0, 0.0);
         glVertex3f(1.0, 1.0, -1.0);
-        glVertex3f(1.0, 0.0, 0.0);
         glVertex3f(1.0, 0.0, -1.0);
+        glVertex3f(1.0, 0.0, 0.0);
     glEnd();
 
     //quad 3
@@ -347,16 +347,16 @@ void display(void)
     glBegin(GL_LINE_LOOP);
         glVertex3f(1.0, 0.0, 1.0);
         glVertex3f(1.0, 0.0, 0.0);
-        glVertex3f(1.0, -1.0, 1.0);
         glVertex3f(1.0, -1.0, 0.0);
+        glVertex3f(1.0, -1.0, 1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 0.0, 0.0);
     glBegin(GL_POLYGON);
         glVertex3f(1.0, 0.0, 1.0);
         glVertex3f(1.0, 0.0, 0.0);
-        glVertex3f(1.0, -1.0, 1.0);
         glVertex3f(1.0, -1.0, 0.0);
+        glVertex3f(1.0, -1.0, 1.0);
     glEnd();
 
     //quad 4
@@ -365,16 +365,16 @@ void display(void)
     glBegin(GL_LINE_LOOP);
         glVertex3f(1.0, 0.0, 0.0);
         glVertex3f(1.0, 0.0, -1.0);
-        glVertex3f(1.0, -1.0, 0.0);
         glVertex3f(1.0, -1.0, -1.0);
+        glVertex3f(1.0, -1.0, 0.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(1.0, 0.0, 0.0);
     glBegin(GL_POLYGON);
        glVertex3f(1.0, 0.0, 0.0);
         glVertex3f(1.0, 0.0, -1.0);
-        glVertex3f(1.0, -1.0, 0.0);
         glVertex3f(1.0, -1.0, -1.0);
+        glVertex3f(1.0, -1.0, 0.0);
     glEnd();
 
     //BOTTOM
@@ -388,7 +388,7 @@ void display(void)
         glVertex3f(0.0, -1.0, 0.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(0.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
          glVertex3f(0.0, -1.0, 1.0);
         glVertex3f(-1.0, -1.0, 1.0);
@@ -406,7 +406,7 @@ void display(void)
         glVertex3f(1.0, -1.0, 0.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(0.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
         glVertex3f(1.0, -1.0, 1.0);
         glVertex3f(0.0, -1.0, 1.0);
@@ -424,7 +424,7 @@ void display(void)
         glVertex3f(0.0, -1.0, -1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(0.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
         glVertex3f(0.0, -1.0, 0.0);
         glVertex3f(-1.0, -1.0, 0.0);
@@ -442,48 +442,107 @@ void display(void)
         glVertex3f(0.0, -1.0, -1.0);
     glEnd();
 
-    glColor3f(1.0, 1.0, 1.0);
+    glColor3f(0.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
         glVertex3f(0.0, -1.0, 0.0);
         glVertex3f(1.0, -1.0, 0.0);
         glVertex3f(1.0, -1.0, -1.0);
         glVertex3f(0.0, -1.0, -1.0);
     glEnd();
-
-    glFlush();
 }
 
-void init(void)
+/* Create display list with Cube and initialize state*/
+static void init(void)
 {
-    glClearColor(0.0, 0.0, 0.0, 0.0);
+   theCube = glGenLists (1);
+   glNewList(theCube, GL_COMPILE);
+   cube(8, 25);
+   glEndList();
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+   glShadeModel(GL_FLAT);
+   glClearColor(0.0, 0.0, 0.0, 0.0);
 }
 
-void reshape(int w, int h) {
-    glViewport(0, 0, (GLsizei)w, (GLsizei)h);
+void display(void)
+{
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   glColor3f (1.0, 1.0, 1.0);
+   glCallList(theCube);
+   glFlush();
+}
+
+void reshape(int w, int h)
+{
+   glViewport(0, 0, (GLsizei) w, (GLsizei) h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-10.0*(GLfloat)w/(GLfloat)h, 10.0*(GLfloat)w/(GLfloat)h,-10.0,10.0,-10.0,10.0);
+    if (w <= h)
+        glOrtho(-5.0, 5.0, -5.0*(GLfloat)h/(GLfloat)w, 
+                5.0*(GLfloat)h/(GLfloat)w, -5.0, 5.0);
+    else
+        glOrtho(-5.0*(GLfloat)w/(GLfloat)h, 
+                5.0*(GLfloat)w/(GLfloat)h, -5.0, 5.0, -5.0, 5.0);
     glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
+/* Rotate about x-axis when "x" typed; rotate about y-axis
+   when "y" typed; "i" returns cube to original view */
+void keyboard(unsigned char key, int x, int y)
+{
+   switch (key) {
+    case 'q':
+    case 'Q':
+        break;
+    case 'w':
+    case 'W':
+        break;
+    case 'e':
+    case 'E':
+        break;
+    case 'a':
+    case 'A':
+        break;
+    case 's':
+    case 'S':
+        break;
+    case 'd':
+    case 'D':
+        break;
+    case 27:
+        exit(0);
+        break;
+    }
+}
 
-
+void keyboardSpecialKeys(int key, int x, int y) {
+    if (key == GLUT_KEY_DOWN) { 
+        glRotatef(15.,1.0,0.0,0.0);
+        glutPostRedisplay();
+    } else if (key == GLUT_KEY_UP) { 
+        glRotatef(-15.,1.0,0.0,0.0);
+        glutPostRedisplay();
+    } else if (key == GLUT_KEY_LEFT) { 
+        glRotatef(-15.,0.0,1.0,0.0);
+        glutPostRedisplay();
+    } else if (key == GLUT_KEY_RIGHT) { 
+        glRotatef(15.,0.0,1.0,0.0);
+        glutPostRedisplay();
+    }
+}
 
 int main(int argc, char **argv)
 {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(400, 400);
-    glutInitWindowPosition(100, 100);
-    glutCreateWindow("hello");
-    init();
-    glutDisplayFunc(display);
-    glutReshapeFunc(reshape);
-    glutMainLoop();
-    return 0;
+   glutInitWindowSize(200, 200);
+   glutInit(&argc, argv);
+   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+   glutCreateWindow(argv[0]);
+   init();
+   glutReshapeFunc(reshape);
+   glutKeyboardFunc(keyboard);
+   glutSpecialFunc(keyboardSpecialKeys);
+   glutDisplayFunc(display);
+   glEnable(GL_DEPTH_TEST);
+   glutMainLoop();
+   return 0;
 }
-
