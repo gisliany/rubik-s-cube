@@ -960,6 +960,11 @@ void keyboard(unsigned char key, int x, int y)
         inverse = 1;
         callInit();
         break;
+    case 'r':
+        rotation = rand() % 6;
+        inverse = rand() % 1;
+        callInit();
+        break;
     case 27:
         exit(0);
         break;
